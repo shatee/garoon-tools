@@ -30,9 +30,21 @@ class FacilityGroup extends Base {
 	public function getAllGroupIds() {
 		$res = $this->predis->get('fgids');
 		if (is_string($res)) {
-			return array_map('intval', explode(',', $ids));
+			return array_map('intval', explode(',', $res));
 		}
 		return null;
+	}
+
+	/**
+	 * @return \Entity\FacilityGroup[]
+	 */
+	public function getAllGroups() {
+		$groupIds = $this->getAllGroupIds();
+		$groups = [];
+		foreach ($groupIds as $id) {
+			$groups[] = $this->getById($id);
+		}
+		return $groups;
 	}
 
 	/**
