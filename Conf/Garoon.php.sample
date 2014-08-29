@@ -1,0 +1,15 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: shate
+ * Date: 2014/08/17
+ * Time: 23:51
+ */
+
+namespace Conf;
+
+class Garoon {
+	const SERVER_FQDN = '***';
+	const LOGIN_USER_NAME = 'foo';
+	const LOGIN_PASSWORD = 'bar';
+}
