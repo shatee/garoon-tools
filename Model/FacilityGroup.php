@@ -5,14 +5,14 @@
  * Date: 2014/08/30
  * Time: 1:14
  */
-namespace Model;
+namespace GaroonTools\Model;
 
 class FacilityGroup extends Base {
 
 	/**
-	 * @param \Entity\FacilityGroup $group
+	 * @param \GaroonTools\Entity\FacilityGroup $group
 	 */
-	public function set(\Entity\FacilityGroup $group) {
+	public function set(\GaroonTools\Entity\FacilityGroup $group) {
 		return $this->predis->set(self::makeKey($group->id), serialize($group));
 	}
 
@@ -36,7 +36,7 @@ class FacilityGroup extends Base {
 	}
 
 	/**
-	 * @return \Entity\FacilityGroup[]
+	 * @return \GaroonTools\Entity\FacilityGroup[]
 	 */
 	public function getAllGroups() {
 		$groupIds = $this->getAllGroupIds();
@@ -49,7 +49,7 @@ class FacilityGroup extends Base {
 
 	/**
 	 * @param int $id
-	 * @return \Entity\FacilityGroup|null
+	 * @return \GaroonTools\Entity\FacilityGroup|null
 	 */
 	public function getById($id) {
 		$res = $this->predis->get(self::makeKey($id));

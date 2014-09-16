@@ -6,7 +6,7 @@
  * Time: 12:23
  */
 
-namespace Model;
+namespace GaroonTools\Model;
 
 /**
  * Class User
@@ -15,15 +15,15 @@ namespace Model;
 class User extends Base {
 
 	/**
-	 * @param \Entity\User $user
+	 * @param \GaroonTools\Entity\User $user
 	 */
-	public function set(\Entity\User $user) {
+	public function set(\GaroonTools\Entity\User $user) {
 		$this->predis->set(self::makeKey($user->id), serialize($user));
 	}
 
 	/**
 	 * @param int $id
-	 * @return \Entity\User|null
+	 * @return \GaroonTools\Entity\User|null
 	 */
 	public function getById($id) {
 		$res = $this->predis->get(self::makeKey($id));

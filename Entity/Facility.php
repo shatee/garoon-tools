@@ -5,7 +5,7 @@
  * Date: 2014/08/30
  * Time: 1:05
  */
-namespace Entity;
+namespace GaroonTools\Entity;
 
 /**
  * Class Facility

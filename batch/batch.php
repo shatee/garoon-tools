@@ -25,7 +25,7 @@ class BaseMaker {
 	protected function get_api() {
 		if (!isset(self::$api_substance)) {
 			self::$api_substance = new CybozuGaroonAPI();
-			self::$api_substance->setUser(Conf\Garoon::LOGIN_USER_NAME, Conf\Garoon::LOGIN_PASSWORD);
+			self::$api_substance->setUser(GaroonTools\Conf\Garoon::LOGIN_USER_NAME, GaroonTools\Conf\Garoon::LOGIN_PASSWORD);
 		}
 		return self::$api_substance;
 	}
@@ -39,12 +39,12 @@ class OrganizationListMaker extends BaseMaker {
 
 	private static $numGetOrganizationsOne = 100;
 
-	/** @var \Model\Organization */
+	/** @var \GaroonTools\Model\Organization */
 	private $orgModel;
 
 	public function __construct() {
 		parent::__construct();
-		$this->orgModel = new \Model\Organization();
+		$this->orgModel = new \GaroonTools\Model\Organization();
 	}
 
 	public function make() {
@@ -75,7 +75,7 @@ class OrganizationListMaker extends BaseMaker {
 
 	/**
 	 * @param int $id
-	 * @return \Entity\Organization[]
+	 * @return \GaroonTools\Entity\Organization[]
 	 */
 	private function getOrganizationsByIds($ids) {
 		$orgs = [];
@@ -90,7 +90,7 @@ class OrganizationListMaker extends BaseMaker {
 
 	/**
 	 * @param stdClass $resOrg
-	 * @return \Entity\Organization
+	 * @return \GaroonTools\Entity\Organization
 	 */
 	private function formatOrganization($resOrg) {
 		$memberUserIds = [];
@@ -115,7 +115,7 @@ class OrganizationListMaker extends BaseMaker {
 			}
 		}
 
-		$org = new \Entity\Organization();
+		$org = new \GaroonTools\Entity\Organization();
 		$org->id = (int)$resOrg->key;
 		$org->name = (string)$resOrg->name;
 		$org->organizationIds = $orgIds;
@@ -135,7 +135,7 @@ class UserListMaker extends BaseMaker {
 
 	public function __construct() {
 		parent::__construct();
-		$this->userModel = new \Model\User();
+		$this->userModel = new \GaroonTools\Model\User();
 	}
 
 	public function make() {
@@ -181,7 +181,7 @@ class UserListMaker extends BaseMaker {
 	}
 
 	private function formatUser($resUser) {
-			$user = new \Entity\User();
+			$user = new \GaroonTools\Entity\User();
 			$user->id = (int)$resUser->key;
 			$user->name = (string)$resUser->name;
 			$user->email = isset($resUser->email) ? (string)$resUser->email : '';
@@ -191,15 +191,15 @@ class UserListMaker extends BaseMaker {
 
 class FacilityListMaker extends BaseMaker {
 
-	/** @var \Model\FacilityGroup */
+	/** @var \GaroonTools\Model\FacilityGroup */
 	private $facilityGroupModel;
-	/** @var \Model\Facility */
+	/** @var \GaroonTools\Model\Facility */
 	private $facilityModel;
 
 	public function __construct() {
 		parent::__construct();
-		$this->facilityGroupModel = new \Model\FacilityGroup();
-		$this->facilityModel = new \Model\Facility();
+		$this->facilityGroupModel = new \GaroonTools\Model\FacilityGroup();
+		$this->facilityModel = new \GaroonTools\Model\Facility();
 	}
 
 	public function make() {
@@ -222,7 +222,7 @@ class FacilityListMaker extends BaseMaker {
 	}
 
 	/**
-	 * @return \Entity\FacilityGroup[]
+	 * @return \GaroonTools\Entity\FacilityGroup[]
 	 */
 	private function getFacilityGroups() {
 		$groupVersions = $this->api->ScheduleGetFacilityGroupsVersions(null);
@@ -237,7 +237,7 @@ class FacilityListMaker extends BaseMaker {
 
 	/**
 	 * @param $id
-	 * @return \Entity\FacilityGroup
+	 * @return \GaroonTools\Entity\FacilityGroup
 	 */
 	private function getFacilityGroup($id) {
 		$res = $this->api->ScheduleGetFacilityGroupsById($id);
@@ -248,7 +248,7 @@ class FacilityListMaker extends BaseMaker {
 			$facilityIds[] = (int)$facility->id;
 		}
 
-		$group = new \Entity\FacilityGroup();
+		$group = new \GaroonTools\Entity\FacilityGroup();
 		$group->id = (int)$res->id;
 		$group->name = (string)$res->name;
 		$group->facilityIds = $facilityIds;
@@ -257,7 +257,7 @@ class FacilityListMaker extends BaseMaker {
 
 	/**
 	 * @param int[] $ids
-	 * @return \Entity\Facility[]
+	 * @return \GaroonTools\Entity\Facility[]
 	 */
 	private function getFacilities($ids) {
 		$res = $this->api->ScheduleGetFacilitiesById($ids);
@@ -265,7 +265,7 @@ class FacilityListMaker extends BaseMaker {
 
 		$facilities = [];
 		foreach ($res as $resFacility) {
-			$facility = new \Entity\Facility();
+			$facility = new \GaroonTools\Entity\Facility();
 			$facility->id = (int)$resFacility->key;
 			$facility->name = (string)$resFacility->name;
 			$facility->facilityGroupId =

@@ -11,7 +11,7 @@ define('REQUEST_USERS_COUNT_AT_ONCE', 100);
 define('SLEEP', 0.1);
 
 $api = new CybozuGaroonAPI();
-$api->setUser(Conf\Garoon::LOGIN_USER_NAME, Conf\Garoon::LOGIN_PASSWORD);
+$api->setUser(GaroonTools\Conf\Garoon::LOGIN_USER_NAME, GaroonTools\Conf\Garoon::LOGIN_PASSWORD);
 
 $phoneParameter = isset($argv[1]) ? $argv[1] : null;
 if (!isset($argv[1]) || !ctype_digit(regularizePhoneNumber($argv[1]))) {

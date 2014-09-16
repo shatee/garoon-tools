@@ -1,0 +1,10 @@
+
+(function($) {
+
+    $.ready(function() {
+
+
+
+    });
+
+})(jQuery);

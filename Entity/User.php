@@ -6,7 +6,7 @@
  * Time: 12:25
  */
 
-namespace Entity;
+namespace GaroonTools\Entity;
 
 /**
  * Class User

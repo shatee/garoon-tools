@@ -5,21 +5,21 @@
  * Date: 2014/08/30
  * Time: 1:28
  */
-namespace Model;
+namespace GaroonTools\Model;
 
 class Facility extends Base {
 
 	/**
-	 * @param \Entity\Facility $facility
+	 * @param \GaroonTools\Entity\Facility $facility
 	 * @return mixed
 	 */
-	public function set(\Entity\Facility $facility) {
+	public function set(\GaroonTools\Entity\Facility $facility) {
 		return $this->predis->set(self::makeKey($facility->id), serialize($facility));
 	}
 
 	/**
 	 * @param $id
-	 * @return \Entity\Facility|null
+	 * @return \GaroonTools\Entity\Facility|null
 	 */
 	public function getById($id) {
 		$res = $this->predis->get(self::makeKey($id));

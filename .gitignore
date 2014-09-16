@@ -1,2 +1,5 @@
 Conf/Garoon.php
 .idea
+/log/*
+/tmp/smarty_template_cache/*
+/tmp/smarty_template_compile/*

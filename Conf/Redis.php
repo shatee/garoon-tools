@@ -6,7 +6,7 @@
  * Time: 11:18
  */
 
-namespace Conf;
+namespace GaroonTools\Conf;
 
 class Redis {
 

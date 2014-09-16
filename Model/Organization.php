@@ -6,7 +6,7 @@
  * Time: 12:23
  */
 
-namespace Model;
+namespace GaroonTools\Model;
 
 /**
  * Class Organization
@@ -15,15 +15,15 @@ namespace Model;
 class Organization extends Base {
 
 	/**
-	 * @param \Entity\Organization $org
+	 * @param \GaroonTools\Entity\Organization $org
 	 */
-	public function set(\Entity\Organization $org) {
+	public function set(\GaroonTools\Entity\Organization $org) {
 		$this->predis->set(self::makeKey($org->id), serialize($org));
 	}
 
 	/**
 	 * @param int $id
-	 * @return \Entity\Organization|null
+	 * @return \GaroonTools\Entity\Organization|null
 	 */
 	public function getById($id) {
 		$res = $this->predis->get(self::makeKey($id));
@@ -52,7 +52,7 @@ class Organization extends Base {
 	}
 
 	/**
-	 * @return \Entity\Organization[]|null
+	 * @return \GaroonTools\Entity\Organization[]|null
 	 */
 	public function getTopLevelOrganizations() {
 		$ids = $this->getTopLevelOrganizationIds();
