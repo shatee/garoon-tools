@@ -22,9 +22,16 @@ if (file_exists($requestFilePath)) {
 require __DIR__ . '/../autoloader.php';
 
 $app = new \Slim\Slim();
+$app->config('debug', true);
+
 $app->get('/notification', function() {
 	$view = new GaroonTools\App\View();
 	(new \GaroonTools\App\Notification\GetController($view))->execute();
 	$view->display();
 });
+
+$app->get('/deploy_schedule/current', function() {
+	(new \GaroonTools\App\DeploySchedule\GetCurrentController())->execute();
+});
+
 $app->run();
