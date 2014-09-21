@@ -44,4 +44,9 @@ $app->post('/notification/confirm_multi/', function() {
 	);
 	$view->display();
 });
+
+$app->get('/deploy_schedule/current', function() {
+	(new \GaroonTools\App\DeploySchedule\GetCurrentController())->execute();
+});
+
 $app->run();
