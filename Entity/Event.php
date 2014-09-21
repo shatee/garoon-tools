@@ -44,6 +44,8 @@ class Event {
 	public $dateStart;
 	/** @var string */
 	public $dateEnd;
+	/** @var \CbgrnRepeatInfo やっつけ */
+	public $repeatInfo;
 	/** @var Follow[] */
 	public $follows = [];
 }

@@ -1,0 +1,24 @@
+#event {
+    position: fixed;
+    background: #fff;
+    top: 0;
+    padding: 60px 20px;
+    height: 100%;
+    width: 50%;
+    overflow: scroll;
+    border: #ddd solid 1px;
+}
+
+#eventMembers {
+    line-height: 24px;
+    padding-left: 0;
+}
+#eventMembers li {
+    display: inline;
+    border: #ddd solid 1px;
+    border-radius: 4px;
+    margin-right: 4px ;
+    padding: 2px;
+    list-style: none;
+    white-space: nowrap;
+}

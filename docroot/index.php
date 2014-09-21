@@ -23,8 +23,25 @@ require __DIR__ . '/../autoloader.php';
 
 $app = new \Slim\Slim();
 $app->get('/notification', function() {
-	$view = new GaroonTools\App\View();
+	$view = new GaroonTools\App\HtmlView();
 	(new \GaroonTools\App\Notification\GetController($view))->execute();
+	$view->display();
+});
+$app->get('/notification/event/:id', function($id) {
+	$view = new GaroonTools\App\JsonView();
+	(new \GaroonTools\App\Notification\GetEventController($view))->execute((int)$id);
+	$view->display();
+});
+$app->post('/notification/confirm/:moduleId/:itemId', function($moduleId, $itemId) {
+	$view = new GaroonTools\App\JsonView();
+	(new \GaroonTools\App\Notification\ConfirmController($view))->execute($moduleId, $itemId);
+	$view->display();
+});
+$app->post('/notification/confirm_multi/', function() {
+	$view = new GaroonTools\App\JsonView();
+	(new \GaroonTools\App\Notification\ConfirmController($view))->execute(
+		array_map(function($item) { return explode(':', $item); }, explode(',', $_POST['items']))
+	);
 	$view->display();
 });
 $app->run();

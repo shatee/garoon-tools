@@ -11,6 +11,6 @@ $api = new CybozuGaroonAPI();
 $api->setUser(GaroonTools\Conf\Garoon::LOGIN_USER_NAME, GaroonTools\Conf\Garoon::LOGIN_PASSWORD);
 
 $eventModel = new \GaroonTools\Model\Event();
-$event = $eventModel->getEventById(841247);
+$event = $eventModel->getEventById($argv[1]);
 //$event = $api->ScheduleGetEventsById(841247);
 var_dump($event);

@@ -28,7 +28,7 @@ if (!defined("__CBGRNAPI__")) {
             $script_encoding = ini_get("zend.script_encoding"); // PHP5.4.0 >=
         }
 	    if ($script_encoding == "") {
-		    $script_encoding = mb_internal_encoding();
+		    $script_encoding = "utf-8";
 	    }
         if (strtolower($script_encoding) != "utf-8") {
             define("__PHP_HAS_MBSTRING__" , 1);

@@ -25,12 +25,24 @@ class User extends Base {
 	 * @param int $id
 	 * @return \GaroonTools\Entity\User|null
 	 */
-	public function getById($id) {
+	public function getUserById($id) {
 		$res = $this->predis->get(self::makeKey($id));
 		if (is_string($res)) {
 			return unserialize($res);
 		}
 		return null;
+	}
+
+	/**
+	 * @param int[] $ids
+	 * @return \GaroonTools\Entity\User[]
+	 */
+	public function getUsersByIds($ids) {
+		$res = [];
+		foreach ($ids as $id) {
+			$res[] = $this->getUserById($id);
+		}
+		return $res;
 	}
 
 	private static function makeKey($id) {

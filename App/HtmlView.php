@@ -7,7 +7,7 @@
  */
 namespace GaroonTools\App;
 
-class View {
+class HtmlView {
 
 	private $smarty;
 	public $template;

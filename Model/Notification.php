@@ -89,6 +89,14 @@ class Notification extends Base {
 	}
 
 	/**
+	 * @param $moduleId
+	 * @param $itemId
+	 */
+	public function updateNotificationConfirm($moduleId, $itemId) {
+		$this->api->NotificationConfirmNotification(new \CbgrnNotificationIdType($moduleId, $itemId));
+	}
+
+	/**
 	 * @param \stdClass $res
 	 * @param $version
 	 * @return NotificationEntity

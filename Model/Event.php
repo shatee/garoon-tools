@@ -43,20 +43,6 @@ class Event extends Base {
 	}
 
 	/**
-	 * @param array $idAndVersionList
-	 * @param bool $enableCache
-	 * @return \GaroonTools\Entity\Event[]
-	 */
-	public function getEventsByIds(array $idAndVersionList, $enableCache) {
-		$events = [];
-		foreach ($idAndVersionList as $idAndVersion) {
-			$idAndVersion = ['id' => null, 'version' => null] + $idAndVersion;
-			$events[] = $this->getEventById($idAndVersion['id'], $idAndVersion['version'], $enableCache);
-		}
-		return $events;
-	}
-
-	/**
 	 * @param \CbgrnEventType $res
 	 * @param bool $needRes
 	 * @return \GaroonTools\Entity\Event
@@ -90,9 +76,12 @@ class Event extends Base {
 			$event->dateStart = $res->when->date->start;
 			$event->dateEnd = $res->when->date->end;
 		}
+		if (isset($res->repeat_info)) {
+			// やっつけ
+			$event->repeatInfo = $res->repeat_info;
+		}
 		if ($needRes) {
 			$event->follows = array_map(function ($a) {
-				var_dump($a);
 				$follow = new Follow();
 				$follow->id = (int)$a->id;
 				$follow->version = (int)$a->version;

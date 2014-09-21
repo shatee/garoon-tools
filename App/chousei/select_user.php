@@ -18,7 +18,7 @@ $getUsers = function ($userIds) use ($userModel) {
 
 	$users = [];
 	foreach ($userIds as $id) {
-		$user = $userModel->getById($id);
+		$user = $userModel->getUserById($id);
 		$users[] = [
 			'id' => $user->id,
 			'name' => $user->name,

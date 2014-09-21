@@ -1,6 +1,7 @@
 <!--!DOCTYPE html-->
 <html lang="ja-jp">
 <head>
+	{block name="head"}
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,6 +22,7 @@
 	<script src="/js/jquery-2.1.1.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="/bootstrap/js/bootstrap.min.js"></script>
+	{/block}
 </head>
 <body role="document">
 

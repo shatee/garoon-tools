@@ -8,7 +8,7 @@
 
 namespace GaroonTools\App\Notification;
 
-use GaroonTools\App\View;
+use GaroonTools\App\HtmlView;
 use GaroonTools\Model\Event;
 use GaroonTools\Model\Notification;
 
@@ -20,7 +20,7 @@ class GetController {
 	private $eventModel;
 	private $view;
 
-	public function __construct(View $view) {
+	public function __construct(HtmlView $view) {
 		$this->notificationModel = new Notification();
 		$this->eventModel = new Event();
 		$this->view = $view;
