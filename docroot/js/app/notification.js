@@ -45,6 +45,7 @@
         $('.notificationLink').removeClass('active');
         $('#eventTitle').text('');
         $('#eventDate').text('');
+        $('#eventGaroonLink').attr('href', '');
         $('#eventFacility').text('');
         $('#eventMembers').text('');
         $('#eventDescription').text('');
@@ -58,69 +59,99 @@
         reset();
     };
 
+    var openEvent = function(event, element) {
+        var $element = $(element);
+
+        $element.addClass('active');
+
+        if (event.pageX < window.innerWidth / 2) {
+            $('#event').css({left: '', right: 0});
+        } else {
+            $('#event').css({left: 0, right: ''});
+        }
+
+        $('#event').show();
+        $('#eventTitle').text('読み込み中...');
+
+        $.getJSON('/notification/event/' + $element.data('itemId'), function(json) {
+            var scheduleEvent = json.event;
+            var facility = json.facility;
+            var members = json.members;
+            $('#eventTitle').text(scheduleEvent.title);
+
+            $('#eventDate').text((function(scheduleEvent) {
+                var dateString;
+                if (scheduleEvent.repeatInfo) {
+                    switch (scheduleEvent.repeatInfo.condition.type) {
+                        case 'week':
+                            dateString =
+                                scheduleEvent.repeatInfo.condition.start_date
+                                    + ' 〜 ' + scheduleEvent.repeatInfo.condition.end_date
+                                    + ' の毎週 ' + getDayString(scheduleEvent.repeatInfo.condition.week)
+                                    + ' 曜日 ' + scheduleEvent.repeatInfo.condition.start_time
+                                    + ' 〜 ' + scheduleEvent.repeatInfo.condition.end_time;
+                            break;
+                        default:
+                            dateString = '未定義';
+                    }
+                } else if (scheduleEvent.dateStart) {
+                    dateString = "開始:" + scheduleEvent.dateStart + " 終了:" + scheduleEvent.dateEnd;
+                } else {
+                    // todo dateFormatting
+                    var start = new Date(scheduleEvent.dateTimeStart * 1000);
+                    var end = new Date(scheduleEvent.dateTimeEnd * 1000);
+                    dateString = "開始:" + formatDate(start) + " 終了:" + formatDate(end);
+                }
+                return dateString;
+            })(scheduleEvent));
+
+            $('#eventGaroonLink').attr('href', $(element).attr('href'));
+
+            if (facility) {
+                $('#eventFacilify').text(facility.name);
+            }
+
+            var membersHtml = '';
+            $(members).each(function() {
+                membersHtml += '<li class="userName">' + this.name + '</li> ';
+            });
+            $('#eventMembers').html(membersHtml);
+
+            $('#eventDescription').text(scheduleEvent.description);
+
+            $(scheduleEvent.follows).each(function() {
+                var $follow = $('<li>');
+                $follow.append('<span class="userName">' + this.creatorUserName + '</span>');
+                $follow.append('<span>' + formatDate(new Date(this.date * 1000)) + '</span>');
+                $follow.append('<pre>' + this.text + '</pre>');
+                $('#eventFollow').append($follow);
+            });
+        });
+    }
+
+    var closeEvent = function() {
+        $('#event').hide();
+        $('.notificationLink.active').removeClass('active');
+    }
+
     $(document).ready(function() {
 
         init();
 
         $('.notificationLink').click(function(event) {
-            var $this = $(this);
-
-            reset();
-            $this.addClass('active');
-
-            if (event.pageX < window.scrollX / 2) {
-                $('#event').css({left: 0, right: ''});
+            if ($(this).hasClass('active')) {
+                // active
+                closeEvent();
             } else {
-                $('#event').css({left: '', right: 0});
+                // no active
+                reset();
+                openEvent(event, this);
             }
+            return false;
+        });
 
-            $('#eventTitle').text('読み込み中...');
-            $.getJSON('/notification/event/' + $this.data('itemId'), function(json) {
-                var event = json.event;
-                var facility = json.facility;
-                var members = json.members;
-                $('#event').show();
-                $('#eventTitle').text(event.title);
-
-                $('#eventDate').text((function(event) {
-                    var dateString;
-                    if (event.repeatInfo) {
-                        switch (event.repeatInfo.condition.type) {
-                            case 'week':
-                                dateString =
-                                    event.repeatInfo.condition.start_date
-                                    + ' 〜 ' + event.repeatInfo.condition.end_date
-                                    + ' の毎週 ' + getDayString(event.repeatInfo.condition.week)
-                                    + ' 曜日 ' + event.repeatInfo.condition.start_time
-                                    + ' 〜 ' + event.repeatInfo.condition.end_time;
-                                break;
-                            default:
-                                dateString = '未定義';
-                        }
-                    } else if (event.allDay) {
-                        dateString = "開始:" + event.dateStart + " 終了:" + event.dateEnd;
-                    } else {
-                        // todo dateFormatting
-                        var start = new Date(event.dateTimeStart * 1000);
-                        var end = new Date(event.dateTimeEnd * 1000);
-                        dateString = "開始:" + formatDate(start) + " 終了:" + formatDate(end);
-                    }
-                    return dateString;
-                })(event));
-
-                if (facility) {
-                    $('#eventFacilify').text(facility.name);
-                }
-
-                var membersHtml = '';
-                $(members).each(function() {
-                    membersHtml += '<li>' + this.name + '</li> ';
-                });
-                $('#eventMembers').html(membersHtml);
-
-                $('#eventDescription').text(event.description);
-                $('#eventFollow').text(event.follows);
-            });
+        $('#eventClose').click(function() {
+            closeEvent();
             return false;
         });
 
@@ -134,20 +165,17 @@
             });
 
             $this.text('更新中...');
+
             $.ajax({
                 type: 'post',
                 url: '/notification/confirm_multi/',
-                data: {
+                    data: {
                     items: itemIds.join()
                 },
                 success: function() {
                     location.reload();
                 }
             });
-        });
-
-        $('#eventClose').click(function() {
-            $('#event').hide();
         });
     });
 

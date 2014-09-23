@@ -4,8 +4,9 @@
 		<button id="eventClose" class="btn btn-default">x</button>
 	</div>
 	<p id="eventDate"></p>
+	<p><a id="eventGaroonLink" class="btn btn-primary btn-sm" target="_blank">ガルーンで見る</a></p>
 	<p id="eventFacility"></p>
 	<ul id="eventMembers"></ul>
 	<pre id="eventDescription"></pre>
-	<p id="eventFollow"></p>
+	<ul id="eventFollow"></ul>
 </div>

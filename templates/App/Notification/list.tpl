@@ -21,7 +21,7 @@
 				<p class="list-group-item-text">
 					{$notification->receiveTime|date_format:'%F %T'}
 					<span class="label label-{$statusLabel}">{$notification->status}</span>
-					{$notification->senderName}
+					<span class="userName">{$notification->senderName}</span>
 				</p>
 				<p>{$notification->abstract}</p>
 			</a>

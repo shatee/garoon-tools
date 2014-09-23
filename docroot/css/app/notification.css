@@ -13,12 +13,16 @@
     line-height: 24px;
     padding-left: 0;
 }
+
 #eventMembers li {
     display: inline;
+    list-style: none;
+}
+
+.userName {
     border: #ddd solid 1px;
     border-radius: 4px;
-    margin-right: 4px ;
-    padding: 2px;
-    list-style: none;
+    margin-right: 4px;
+    padding: 2px 4px;
     white-space: nowrap;
 }

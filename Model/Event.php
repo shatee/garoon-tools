@@ -80,8 +80,8 @@ class Event extends Base {
 			// やっつけ
 			$event->repeatInfo = $res->repeat_info;
 		}
-		if ($needRes) {
-			$event->follows = array_map(function ($a) {
+		if ($needRes && $res->follow !== null) {
+			foreach ($res->follow as $a) {
 				$follow = new Follow();
 				$follow->id = (int)$a->id;
 				$follow->version = (int)$a->version;
@@ -89,8 +89,8 @@ class Event extends Base {
 				$follow->creatorUserId = $a->creator->user_id;
 				$follow->creatorUserName = $a->creator->name;
 				$follow->date = $a->creator->date;
-				return $follow;
-			}, $res->follow);
+				$event->follows[] = $follow;
+			}
 		}
 		return $event;
 	}

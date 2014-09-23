@@ -40,7 +40,7 @@ class GetEventController {
 	 * @param int $id
 	 */
 	public function execute($id) {
-		$event = $this->eventModel->getEventById($id);
+		$event = $this->eventModel->getEventById($id, null, true, true);
 		$facility =
 			$event->facilityId !== null
 			? $facility = $this->facilityModel->getById($event->facilityId)
