@@ -19,27 +19,43 @@ class Event extends Base {
 	 * @param int|null $version
 	 * @param bool $enable_cache
 	 * @param bool $needRes
-	 * @return \GaroonTools\Entity\Event
+	 * @return \GaroonTools\Entity\Event|null
 	 */
 	public function getEventById($id, $version = null, $enable_cache = true, $needRes = false) {
 		if (!$enable_cache) {
-			return self::convertApiResponseToEntity($this->api->ScheduleGetEventsById($id), $needRes);
+			return $this->getEventFromApiAndConvert($id, $needRes);
 		}
 
 		$res = $this->predis->get(self::makeKey($id));
 		if (is_string($res)) {
 			$event = unserialize($res);
-		} else {
-			$event = self::convertApiResponseToEntity($this->api->ScheduleGetEventsById($id), $needRes);
 		}
 
-		if ($version === null || $event->version !== $version) {
-			$event = self::convertApiResponseToEntity($this->api->ScheduleGetEventsById($id), $needRes);
+		if (
+			!$event instanceof \CbgrnEventType
+			|| $version === null
+			|| $event->version !== $version
+		) {
+			$event = $this->getEventFromApiAndConvert($id, $needRes);
 		}
 
 		$this->predis->setex(self::makeKey($id), self::EXPIRE, serialize($event));
 
 		return $event;
+	}
+
+	/**
+	 * @param int $id
+	 * @param bool $needRes
+	 * @return \GaroonTools\Entity\Event|null
+	 */
+	private function getEventFromApiAndConvert($id, $needRes) {
+		$apiRes = $this->api->ScheduleGetEventsById($id);
+		if ($apiRes instanceof \CbgrnEventType) {
+			return self::convertApiResponseToEntity($apiRes, $needRes);
+		} else {
+			return null;
+		}
 	}
 
 	/**
