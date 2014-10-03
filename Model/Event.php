@@ -32,14 +32,13 @@ class Event extends Base {
 		}
 
 		if (
-			!$event instanceof \CbgrnEventType
+			!$event instanceof \GaroonTools\Entity\Event
 			|| $version === null
 			|| $event->version !== $version
 		) {
 			$event = $this->getEventFromApiAndConvert($id, $needRes);
+			$this->predis->setex(self::makeKey($id), self::EXPIRE, serialize($event));
 		}
-
-		$this->predis->setex(self::makeKey($id), self::EXPIRE, serialize($event));
 
 		return $event;
 	}

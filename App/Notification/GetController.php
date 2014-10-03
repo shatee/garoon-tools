@@ -14,7 +14,7 @@ use GaroonTools\Model\Notification;
 
 class GetController {
 
-	private static $_SPAN_START_BEFORE_SEC = 1209600; // 2 week
+	const SPAN_START_BEFORE_SEC = 1209600; // 2 week
 
 	private $notificationModel;
 	private $eventModel;
@@ -28,7 +28,7 @@ class GetController {
 	}
 
 	public function execute() {
-		$notifications = $this->notificationModel->getNotificationsByModifiedSpanUnread(time() - self::$_SPAN_START_BEFORE_SEC);
+		$notifications = $this->notificationModel->getNotificationsByModifiedSpanUnread(time() - self::SPAN_START_BEFORE_SEC);
 		$events = [];
 		foreach ($notifications as $notification) {
 			/** @var \GaroonTools\Entity\Notification $notification */
