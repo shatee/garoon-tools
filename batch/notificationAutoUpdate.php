@@ -16,7 +16,7 @@ $eventModel = new \GaroonTools\Model\Event();
 foreach ($notifications as $notification) {
 	if ($notification->moduleId == \GaroonTools\Entity\Notification::MODULE_ID_GRN_SCHEDULE) {
 		echo strftime('%F %T', time()) . " start get event ($notification->itemId)\n";
-		$eventModel->getEventById($notification->itemId, $notification->version);
+		$eventModel->getEventById($notification->itemId, $notification->version, true, true);
 		echo microtime(true) . "\n";
 		echo strftime('%F %T', time()) . " end get event ($notification->itemId)\n";
 	}

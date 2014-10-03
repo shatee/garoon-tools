@@ -26,7 +26,8 @@ class Event extends Base {
 			return $this->getEventFromApiAndConvert($id, $needRes);
 		}
 
-		$res = $this->predis->get(self::makeKey($id));
+		// レス必要/不要時でキャッシュのキーが変わる (それぞれキャッシュする) のは意味わからないのでなんとかしたい
+		$res = $this->predis->get(self::makeKey($id, $needRes));
 		if (is_string($res)) {
 			$event = unserialize($res);
 		}
@@ -37,7 +38,7 @@ class Event extends Base {
 			|| $event->version !== $version
 		) {
 			$event = $this->getEventFromApiAndConvert($id, $needRes);
-			$this->predis->setex(self::makeKey($id), self::EXPIRE, serialize($event));
+			$this->predis->setex(self::makeKey($id, $needRes), self::EXPIRE, serialize($event));
 		}
 
 		return $event;
@@ -110,7 +111,8 @@ class Event extends Base {
 		return $event;
 	}
 	
-	private static function makeKey($id) {
-		return "e_{$id}";
+	private static function makeKey($id, $needRes) {
+		$needResInt = $needRes ? 1 : 0;
+		return "e_{$id}_{$needResInt}";
 	}
 }
